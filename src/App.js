@@ -1,23 +1,30 @@
-import logo from './logo.svg';
 import './App.css';
+import { Products } from './elements/Products/Products';
+import { useState } from 'react';
+import { ProductModal } from './elements/ModalWindow/ModalWindow';
 
 function App() {
+  const [isModalOpen, setModalIsOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState(null);
+
+  const openModal = (product) => {
+    setSelectedProduct(product);
+    setModalIsOpen(true);
+  };
+
+  const closeModal = () => {
+    setSelectedProduct(null);
+    setModalIsOpen(false);
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Products onProductClick={openModal} />
+      <ProductModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        product={selectedProduct}
+      />
     </div>
   );
 }
